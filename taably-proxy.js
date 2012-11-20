@@ -47,4 +47,4 @@ httpProxy.createServer(function (req, res, proxy) {
       });
   }
 }).listen(8080, "127.0.0.1");
-console.log('Taably proxy running at http://127.0.0.1:8080/');
+console.log('Taably proxy server started. \nRouting traffic to '+TAABLY_PY_HOST+':'+TAABLY_PY_PORT);
