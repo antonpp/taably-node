@@ -11,9 +11,10 @@ httpProxy.createServer(function (req, res, proxy) {
   req.headers.host = TAABLY_PY_HOST;
   var reqBody = "";
   req.connection.setTimeout();
+  d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+  console.log(d + ' : ' + req.method + ' : ' + req.url);
   switch (req.url) {
     case '/api/v0/layout/render/':
-      console.log('OPLETTEN ---> ' + req.method + ' : ' + req.url);
       req.on('data', function(chunk){ reqBody += chunk.toString(); });
       req.on('end', function() {
         console.log('Layout data received.');
@@ -40,7 +41,6 @@ httpProxy.createServer(function (req, res, proxy) {
       });
       break;
     default:
-      console.log(req.method + ' : ' + req.url);
       proxy.proxyRequest(req, res, {
         host: TAABLY_PY_HOST,
         port: TAABLY_PY_PORT
