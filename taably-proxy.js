@@ -22,21 +22,21 @@ httpProxy.createServer(function (req, res, proxy) {
         var layoutObj = JSON.parse(qs.unescape(data.data))
         var canvas = fabric.createCanvasForNode(layoutObj.tableDesignerMeta.width, 
                                                 layoutObj.tableDesignerMeta.height);
-        var onContextReady = function() {
-          console.log('Fabric context ready.');
-          canvasStream = canvas.createPNGStream();
-          res.writeHead(200, "OK", {
-            'Content-Type': 'image/png',
-            'Content-Disposition': 'attachment; filename="' + data.name + '.png"',
-            'Set-Cookie': 'fileDownload=true; path=/'
-          });
-          canvasStream.on('data', function(d){res.write(d)})
-          canvasStream.on('end', function(){
-            console.log('Writing PNG complete.');
-            res.end();
-          })
-        } // onContextReady
         try {
+          var onContextReady = function() {
+            console.log('Fabric context ready.');
+            canvasStream = canvas.createPNGStream();
+            res.writeHead(200, "OK", {
+              'Content-Type': 'image/png',
+              'Content-Disposition': 'attachment; filename="' + data.name + '.png"',
+              'Set-Cookie': 'fileDownload=true; path=/'
+            });
+            canvasStream.on('data', function(d){res.write(d)})
+            canvasStream.on('end', function(){
+              console.log('Writing PNG complete.');
+              res.end();
+            })
+          } // onContextReady
           console.log('Loading layout from json...');
           canvas.loadFromJSON(qs.unescape(data.data), onContextReady);
         } catch(err) {
