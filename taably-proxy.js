@@ -36,8 +36,12 @@ httpProxy.createServer(function (req, res, proxy) {
             res.end();
           })
         } // onContextReady
-        console.log('Loading layout from json...');
-        canvas.loadFromJSON(qs.unescape(data.data), onContextReady);
+        try {
+          console.log('Loading layout from json...');
+          canvas.loadFromJSON(qs.unescape(data.data), onContextReady);
+        } catch(err) {
+          console.log("ERROR : " + err.message);
+        }
       });
       break;
     default:
