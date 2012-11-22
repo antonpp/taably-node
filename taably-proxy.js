@@ -2,7 +2,6 @@ var http = require('http'),
     httpProxy = require('http-proxy'),
     util = require('util'),
     qs = require('querystring'),
-    fabric = require('fabric').fabric,
     __ = require('./utils.js');
 
 var TAABLY_PY_HOST = 'taably-py.herokuapp.com';
@@ -13,41 +12,18 @@ httpProxy.createServer(function (req, res, proxy) {
   if (!req.url.match(extPat) && req.url.substr(-1) !== '/')
     req.url += '/'
   req.headers.host = TAABLY_PY_HOST;
-  req.connection.setTimeout();
-
-  var reqBody = "";
-
   __.log(req.method + ' : ' + req.url);
+
+  var bodyBuf = "";
 
   switch (req.url) {
     case '/api/v0/layout/render/':
-      req.on('data', function(chunk){ reqBody += chunk.toString(); });
+      req.connection.setTimeout(60000);
+      req.on('data', function(chunk){ bodyBuf += chunk.toString(); });
       req.on('end', function() {
         __.log('Layout data received.');
-        var data = qs.parse(reqBody);
-        var layoutObj = JSON.parse(qs.unescape(data.data))
-        var canvas = fabric.createCanvasForNode(layoutObj.tableDesignerMeta.width, 
-                                                layoutObj.tableDesignerMeta.height);
-        try {
-          var onContextReady = function() {
-            __.log('Fabric context ready.');
-            canvasStream = canvas.createPNGStream();
-            res.writeHead(200, "OK", {
-              'Content-Type': 'image/png',
-              'Content-Disposition': 'attachment; filename="' + data.name + '.png"',
-              'Set-Cookie': 'fileDownload=true; path=/'
-            });
-            canvasStream.on('data', function(d){res.write(d)})
-            canvasStream.on('end', function(){
-              __.log('Writing PNG complete.');
-              res.end();
-            })
-          } // onContextReady
-          __.log('Loading layout from json...');
-          canvas.loadFromJSON(qs.unescape(data.data), onContextReady);
-        } catch(err) {
-          __.log("ERROR : " + err.message);
-        }
+        var data = qs.parse(bodyBuf);
+        __.sendLayout(res, qs.unescape(data.data), {'name': data.name});
       });
       break;
     default:
