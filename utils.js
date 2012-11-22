@@ -9,12 +9,12 @@ var setBackgroundGrad = function(ctx, data) {
   var c1 = data.color1;
   var c2 = data.color2;
   var bgRect = new fabric.Rect({
-    left: 0, 
-    top: 0, 
+    left: ctx.getCenter().left, 
+    top: ctx.getCenter().top, 
     width: ctx.width, 
     height: ctx.height
   });
-  var grad = ctx.getContext().createLinearGradient(0,0,0,ctx.height);
+  var grad = ctx.getContext().createLinearGradient(0,ctx.height,0,0);
   grad.addColorStop(0, c1);
   grad.addColorStop(1, c2);
   bgRect.fill = grad;
