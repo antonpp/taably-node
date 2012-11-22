@@ -6,6 +6,8 @@ var log = function(what) {
 }
 
 var setBackgroundGrad = function(ctx, data) {
+  // this function is a hack to make it work on older
+  // versions of canvas and fabric
   var c1 = data.color1;
   var c2 = data.color2;
   var grad = ctx.getContext().createLinearGradient(0,0,0,ctx.height);
@@ -22,6 +24,8 @@ var setBackgroundGrad = function(ctx, data) {
 } // setBackgroundGrad
 
 var setBackgroundRad = function(ctx, data) {
+  // this function is a hack to make it work on older
+  // versions of canvas and fabric
   ctx.backgroundColor = c1;
   var bgRad = new fabric.Rect({
     left: ctx.getCenter().left, 
