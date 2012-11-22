@@ -24,6 +24,7 @@ var setBackgroundGrad = function(ctx, data) {
 
 var setBackgroundRad = function(ctx, data) {
   var bgRad = new fabric.Rect({
+    fill: c1,
     left: ctx.getCenter().left, 
     top: ctx.getCenter().top, 
     width: ctx.width, 
