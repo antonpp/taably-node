@@ -9,8 +9,8 @@ var setBackgroundGrad = function(ctx, data) {
   var c1 = data.color1;
   var c2 = data.color2;
   var bgRect = new fabric.Rect({
-    left: ctx.getCenter().left, 
-    top: ctx.getCenter().top, 
+    left: 0, 
+    top: 0, 
     width: ctx.width, 
     height: ctx.height
   });
