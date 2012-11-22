@@ -14,17 +14,16 @@ var setBackgroundGrad = function(ctx, data) {
     width: ctx.width, 
     height: ctx.height
   });
-  var grad = ctx.getContext().createLinearGradient(0,0,0,ctx.height/2);
+  var grad = ctx.getContext().createLinearGradient(0,0,0,ctx.height);
   grad.addColorStop(0, c1);
   grad.addColorStop(1, c2);
   bgRect.fill = grad;
   ctx.insertAt(bgRect,1);
-  ctx.renderAll();
 } // setBackgroundGrad
 
 var setBackgroundRad = function(ctx, data) {
+  ctx.backgroundColor = c1;
   var bgRad = new fabric.Rect({
-    fill: c1,
     left: ctx.getCenter().left, 
     top: ctx.getCenter().top, 
     width: ctx.width, 
@@ -39,7 +38,6 @@ var setBackgroundRad = function(ctx, data) {
   bgRad.set('scaleX',2.0);
   bgRad.fill = grad;
   ctx.insertAt(bgRad,2);
-  ctx.renderAll();
 } // setBackgroundRad
 
 var sendLayout = function(res, jsonStr, opt) {
