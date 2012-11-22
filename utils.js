@@ -19,6 +19,7 @@ var setBackgroundGrad = function(ctx, data) {
   grad.addColorStop(1, c2);
   bgRect.fill = grad;
   ctx.insertAt(bgRect,1);
+  ctx.renderAll();
 } // setBackgroundGrad
 
 var setBackgroundRad = function(ctx, data) {
@@ -33,10 +34,11 @@ var setBackgroundRad = function(ctx, data) {
   var grad = ctx.getContext().createRadialGradient(0, 0, 0, 0, 0, ctx.height/2);
   grad.addColorStop(0, c1);
   grad.addColorStop(1, c2);
-  bgRad.fill = grad;
   bgRad.set('scaleY',0.8);
   bgRad.set('scaleX',2.0);
+  bgRad.fill = grad;
   ctx.insertAt(bgRad,1);
+  ctx.renderAll();
 } // setBackgroundRad
 
 var sendLayout = function(res, jsonStr, opt) {
