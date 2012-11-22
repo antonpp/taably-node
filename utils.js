@@ -8,7 +8,7 @@ var log = function(what) {
 var setBackgroundGrad = function(ctx, data) {
   var c1 = data.color1;
   var c2 = data.color2;
-  var grad = ctx.getContext().createLinearGradient(0,0,0,ctx.height/2);
+  var grad = ctx.getContext().createLinearGradient(0,0,0,ctx.height);
   grad.addColorStop(0, c1);
   grad.addColorStop(1, c2);
   var bgRect = new fabric.Rect({
