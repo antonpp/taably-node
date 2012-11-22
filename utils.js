@@ -14,7 +14,7 @@ var setBackgroundGrad = function(ctx, data) {
     width: ctx.width, 
     height: ctx.height
   });
-  var grad = ctx.getContext().createLinearGradient(0,ctx.height,0,0);
+  var grad = ctx.getContext().createLinearGradient(0,0,0,ctx.height/3);
   grad.addColorStop(0, c1);
   grad.addColorStop(1, c2);
   bgRect.fill = grad;
