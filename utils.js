@@ -38,7 +38,7 @@ var setBackgroundRad = function(ctx, data) {
   bgRad.set('scaleY',0.8);
   bgRad.set('scaleX',2.0);
   bgRad.fill = grad;
-  ctx.insertAt(bgRad,1);
+  ctx.insertAt(bgRad,2);
   ctx.renderAll();
 } // setBackgroundRad
 
