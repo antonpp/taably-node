@@ -2,7 +2,8 @@
   "name": "taably-node",
   "version": "0.0.1",
   "dependencies": {
-    "fabric": "0.8.x",
+    "canvas": "0.12.0",
+    "fabric": "0.8.4",
     "http-proxy": "0.8.5"
   },
   "engines": {
