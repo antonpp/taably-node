@@ -64,16 +64,17 @@ var sendLayout = function(res, jsonStr, opt) {
       default:
     }
 
-    canvasStream = canvas.createPNGStream();
+    //canvasStream = canvas.createPNGStream();
+    canvasStream = canvas.createJPEGStream();
     res.writeHead(200, "OK", {
-      'Content-Type': 'image/png',
+      'Content-Type': 'image/jpeg',
       'Content-Disposition': 'attachment; filename="'
-        +opt.name+'.png"',
+        +opt.name+'.jpg"',
       'Set-Cookie': 'fileDownload=true; path=/'
     });
     canvasStream.on('data', function(d){res.write(d)})
     canvasStream.on('end', function(){
-      log('Writing PNG complete.');
+      log('Writing JPG complete.');
       res.end();
     })
   } // onContextReady

@@ -7,6 +7,9 @@ var http = require('http'),
 var TAABLY_PY_HOST = 'taably-py.herokuapp.com';
 var TAABLY_PY_PORT = 80;
 
+//TAABLY_PY_HOST = '127.0.0.1';
+//TAABLY_PY_PORT = 8000;
+
 httpProxy.createServer(function (req, res, proxy) {
   var extPat = /\.[0-9a-z]+$/i;
   if (!req.url.match(extPat) && req.url.substr(-1) !== '/')
