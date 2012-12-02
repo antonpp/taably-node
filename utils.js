@@ -65,7 +65,7 @@ var sendLayout = function(res, jsonStr, opt) {
     }
 
     //canvasStream = canvas.createPNGStream();
-    canvasStream = canvas.createJPEGStream();
+    canvasStream = canvas.lowerCanvasEl.createJPEGStream();
     res.writeHead(200, "OK", {
       'Content-Type': 'image/jpeg',
       'Content-Disposition': 'attachment; filename="'
