@@ -1,8 +1,23 @@
-var fabric = require('fabric').fabric;
+var fabric = require('fabric').fabric,
+    Canvas = require('canvas'),
+    fs = require('fs');
 
 var log = function(what) {
   d = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
   console.log(d + ' > ' + what);
+}
+
+var overlayImg = function(_canvas, imgSrc, callback) {
+  fs.readFile(imgSrc, function(err, data) {
+    if (err) throw err;
+    var img = new Canvas.Image;
+    img.onload = function() {
+      _canvas.getContext('2d').drawImage(img, 0, 0);
+      if (typeof callback === 'function')
+        callback.call(img);
+    }
+    img.src = data;
+  })
 }
 
 var setBackgroundGrad = function(ctx, data) {
@@ -64,19 +79,28 @@ var sendLayout = function(res, jsonStr, opt) {
       default:
     }
 
-    //canvasStream = canvas.nodeCanvas.createPNGStream();
-    canvasStream = canvas.nodeCanvas.createJPEGStream({quality: 80});
-    res.writeHead(200, "OK", {
-      'Content-Type': 'image/jpeg',
-      'Content-Disposition': 'attachment; filename="'
-        +opt.name+'.jpg"',
-      'Set-Cookie': 'fileDownload=true; path=/'
-    });
-    canvasStream.on('data', function(d){res.write(d)})
-    canvasStream.on('end', function(){
-      log('Writing JPG complete.');
-      res.end();
-    })
+    log("Rendering for : " + opt.room);
+    
+    try {
+      overlayImg(canvas, __dirname+'/'+opt.room+'_overlay.png', function(img){
+        //var canvasStream = canvas.nodeCanvas.createPNGStream();
+        var canvasStream = canvas.nodeCanvas.createJPEGStream({quality: 80});
+
+        res.writeHead(200, "OK", {
+          'Content-Type': 'image/jpeg',
+          'Content-Disposition': 'attachment; filename="'
+            +opt.name+'.jpg"',
+          'Set-Cookie': 'fileDownload=true; path=/'
+        });
+        canvasStream.on('data', function(d){res.write(d)})
+        canvasStream.on('end', function(){
+          log('Writing JPG complete.');
+          res.end();
+        });
+      }); // overlayImg done
+    } catch(err) {
+      console.log("Error overlaying image");
+    }
   } // onContextReady
   log('Loading layout from json...');
   canvas.loadFromJSON(jsonStr, onContextReady);

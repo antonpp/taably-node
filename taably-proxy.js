@@ -26,7 +26,7 @@ httpProxy.createServer(function (req, res, proxy) {
       req.on('end', function() {
         __.log('Layout data received.');
         var data = qs.parse(bodyBuf);
-        __.sendLayout(res, qs.unescape(data.data), {'name': data.name});
+        __.sendLayout(res, qs.unescape(data.data), {'name': data.name, 'room': data.room});
       });
       break;
     default:
