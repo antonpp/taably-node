@@ -81,25 +81,28 @@ var sendLayout = function(res, jsonStr, opt) {
 
     log("Rendering for : " + opt.room);
     
-    try {
-      overlayImg(canvas, __dirname+'/'+opt.room+'_overlay.png', function(img){
-        //var canvasStream = canvas.nodeCanvas.createPNGStream();
-        var canvasStream = canvas.nodeCanvas.createJPEGStream({quality: 80});
+    var overlayDone = function() {
+      //var canvasStream = canvas.nodeCanvas.createPNGStream();
+      var canvasStream = canvas.nodeCanvas.createJPEGStream({quality: 80});
 
-        res.writeHead(200, "OK", {
-          'Content-Type': 'image/jpeg',
-          'Content-Disposition': 'attachment; filename="'
-            +opt.name+'.jpg"',
-          'Set-Cookie': 'fileDownload=true; path=/'
-        });
-        canvasStream.on('data', function(d){res.write(d)})
-        canvasStream.on('end', function(){
-          log('Writing JPG complete.');
-          res.end();
-        });
-      }); // overlayImg done
+      res.writeHead(200, "OK", {
+        'Content-Type': 'image/jpeg',
+        'Content-Disposition': 'attachment; filename="'
+          +opt.name+'.jpg"',
+        'Set-Cookie': 'fileDownload=true; path=/'
+      });
+      canvasStream.on('data', function(d){res.write(d)})
+      canvasStream.on('end', function(){
+        log('Writing JPG complete.');
+        res.end();
+      });
+    }
+
+    try {
+      overlayImg(canvas, __dirname+'/'+opt.room+'_overlay.png', overlayDone);
     } catch(err) {
       console.log("Error overlaying image");
+      overlayDone();
     }
   } // onContextReady
   log('Loading layout from json...');
